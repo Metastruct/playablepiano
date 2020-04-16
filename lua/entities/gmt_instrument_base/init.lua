@@ -83,7 +83,7 @@ function ENT:SetupChair( vecmdl, angmdl, vecvehicle, angvehicle )
 	
 end
 
-local function HookChair( ply, ent )
+local function HookChair( ply, ent, role ) -- VXP: "role" only exists in CanPlayerEnterVehicle hook
 
 	local inst = ent:GetOwner()
 
@@ -98,7 +98,11 @@ local function HookChair( ply, ent )
 			end
 		end
 
-		return false
+		-- VXP: Overriding PlayerUse hook in THAT way is really bad. Let's fix that
+		-- That means that this function was called from CanPlayerEnterVehicle, not PlayerUse
+		if role ~= nil then
+			return false
+		end
 
 	end
 
